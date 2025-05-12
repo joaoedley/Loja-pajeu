@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Login - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    .login-container {
+        max-width: 500px;
+        margin: 3rem auto;
+    }
+    
+    .login-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .login-header {
+        background-color: var(--azul-primario);
+        color: white;
+        padding: 1.25rem;
+        text-align: center;
+    }
+    
+    .login-title {
+        font-weight: 600;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+    
+    .login-body {
+        padding: 1.5rem;
+        background-color: #fff;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: var(--azul-secundario);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.2s ease;
+    }
+    
+    .form-control:focus {
+        border-color: var(--azul-primario);
+        box-shadow: 0 0 0 0.2rem rgba(26, 95, 156, 0.1);
+    }
+    
+    .btn-login {
+        background-color: var(--azul-primario);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-weight: 500;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-login:hover {
+        background-color: var(--azul-secundario);
+    }
+    
+    .login-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+    }
+    
+    .login-footer a {
+        color: var(--azul-primario);
+        font-weight: 500;
+        text-decoration: none;
+    }
+    
+    .login-footer a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h2 class="login-title">Login</h2>
+        </div>
+        <div class="login-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Usuário</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-login">Entrar</button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Não tem uma conta? <a href="{% url 'core:registro' %}">Cadastre-se</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

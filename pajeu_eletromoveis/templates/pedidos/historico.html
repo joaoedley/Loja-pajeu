@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}Meus Pedidos - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    .orders-section {
+        padding: 3rem 0;
+    }
+    
+    .orders-header {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .orders-title {
+        font-weight: 700;
+        color: var(--azul-secundario);
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .orders-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--azul-primario), var(--amarelo-primario));
+    }
+    
+    .orders-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 12px;
+    }
+    
+    .orders-table thead th {
+        background-color: var(--azul-primario);
+        color: white;
+        padding: 1rem;
+        font-weight: 500;
+    }
+    
+    .orders-table th:first-child {
+        border-radius: 8px 0 0 8px;
+    }
+    
+    .orders-table th:last-child {
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .orders-table tbody tr {
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+    }
+    
+    .orders-table tbody tr:hover {
+        background-color: #f0f0f0;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .orders-table td {
+        padding: 1rem;
+        vertical-align: middle;
+    }
+    
+    .order-number {
+        font-weight: 600;
+        color: var(--azul-secundario);
+    }
+    
+    .order-date {
+        color: #666;
+    }
+    
+    .order-total {
+        font-weight: 600;
+        color: var(--azul-primario);
+    }
+    
+    .order-status {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+    
+    .status-pendente {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-pago {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .status-enviado {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+    
+    .status-entregue {
+        background-color: #d1ecf1;
+        color: #0c5460;
+    }
+    
+    .status-cancelado {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    
+    .delivery-type {
+        font-weight: 500;
+    }
+    
+    .btn-details {
+        background-color: var(--azul-primario);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-details:hover {
+        background-color: var(--azul-secundario);
+        transform: translateY(-1px);
+    }
+    
+    .empty-orders {
+        text-align: center;
+        padding: 3rem;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .empty-orders-icon {
+        font-size: 3rem;
+        color: var(--azul-primario);
+        margin-bottom: 1rem;
+    }
+    
+    .empty-orders-text {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-start-shopping {
+        background-color: var(--azul-primario);
+        color: white;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-start-shopping:hover {
+        background-color: var(--azul-secundario);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .orders-table {
+            display: block;
+            overflow-x: auto;
+        }
+        
+        .orders-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="orders-section">
+    <div class="container">
+        <div class="orders-header">
+            <h2 class="orders-title">
+                <i class="bi bi-receipt me-2"></i> Meus Pedidos
+            </h2>
+            <a href="{% url 'produtos:lista' %}" class="btn btn-azul">
+                <i class="bi bi-bag me-1"></i> Continuar Comprando
+            </a>
+        </div>
+        
+        {% if pedidos %}
+        <div class="table-responsive">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Nº do Pedido</th>
+                        <th>Data</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Tipo de Entrega</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                    <tr>
+                        <td class="order-number">#{{ pedido.id }}</td>
+                        <td class="order-date">{{ pedido.criado_em|date:"d/m/Y H:i" }}</td>
+                        <td class="order-total">R$ {{ pedido.get_total|intcomma }}</td>
+                        <td>
+                            <span class="order-status 
+                                {% if pedido.status == 'pendente' %}status-pendente
+                                {% elif pedido.status == 'pago' %}status-pago
+                                {% elif pedido.status == 'enviado' %}status-enviado
+                                {% elif pedido.status == 'entregue' %}status-entregue
+                                {% elif pedido.status == 'cancelado' %}status-cancelado{% endif %}">
+                                {{ pedido.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="delivery-type">
+                            {% if pedido.tipo_entrega == 'envio' %}
+                                <i class="bi bi-truck me-1"></i> Envio
+                            {% else %}
+                                <i class="bi bi-shop me-1"></i> Retirada
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'pedidos:pedido_detalhe' pedido.id %}" class="btn btn-details">
+                                <i class="bi bi-eye me-1"></i> Detalhes
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-orders">
+            <i class="bi bi-cart-x empty-orders-icon"></i>
+            <h3 class="empty-orders-text">Nenhum pedido encontrado</h3>
+            <p class="text-muted mb-4">Você ainda não realizou nenhum pedido em nossa loja</p>
+            <a href="{% url 'produtos:lista' %}" class="btn btn-start-shopping">
+                <i class="bi bi-bag me-2"></i> Começar a Comprar
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

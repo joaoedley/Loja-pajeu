@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}Carrinho - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    .cart-container {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        margin-bottom: 3rem;
+    }
+    
+    .cart-title {
+        color: var(--azul-secundario);
+        font-weight: 700;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .cart-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+    }
+    
+    .cart-table thead th {
+        background-color: var(--azul-primario);
+        color: white;
+        padding: 1rem;
+        font-weight: 500;
+    }
+    
+    .cart-table th:first-child {
+        border-radius: 8px 0 0 8px;
+    }
+    
+    .cart-table th:last-child {
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .cart-table tbody tr {
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+    }
+    
+    .cart-table tbody tr:hover {
+        background-color: #f0f0f0;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .cart-table td {
+        padding: 1.5rem;
+        vertical-align: middle;
+    }
+    
+    .product-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border-radius: 8px;
+        border: 1px solid #eee;
+        background-color: #fff;
+        padding: 5px;
+    }
+    
+    .product-name {
+        font-weight: 600;
+        color: var(--azul-secundario);
+    }
+    
+    .quantity-control {
+        display: flex;
+        align-items: center;
+    }
+    
+    .quantity-input {
+        width: 70px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 0.5rem;
+        font-weight: 500;
+    }
+    
+    .update-btn {
+        background-color: var(--azul-primario);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.5rem;
+        transition: all 0.2s ease;
+    }
+    
+    .update-btn:hover {
+        background-color: var(--azul-secundario);
+        transform: scale(1.05);
+    }
+    
+    .price-cell {
+        font-weight: 600;
+        color: var(--azul-primario);
+    }
+    
+    .remove-btn {
+        background-color: #ff4444;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+    
+    .remove-btn:hover {
+        background-color: #cc0000;
+        transform: scale(1.05);
+    }
+    
+    .cart-total {
+        background-color: var(--azul-primario);
+        color: white;
+        font-weight: 600;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .cart-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+    
+    .btn-continue {
+        background-color: #f8f9fa;
+        color: var(--azul-primario);
+        border: 1px solid var(--azul-primario);
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-continue:hover {
+        background-color: var(--azul-primario);
+        color: white;
+    }
+    
+    .btn-checkout {
+        background-color: var(--amarelo-primario);
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-checkout:hover {
+        background-color: var(--amarelo-secundario);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .empty-cart {
+        text-align: center;
+        padding: 3rem;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .empty-cart-icon {
+        font-size: 3rem;
+        color: var(--azul-primario);
+        margin-bottom: 1rem;
+    }
+    
+    .empty-cart-text {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-start-shopping {
+        background-color: var(--azul-primario);
+        color: white;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-start-shopping:hover {
+        background-color: var(--azul-secundario);
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container my-5">
+    <div class="cart-container">
+        <h2 class="cart-title">
+            <i class="bi bi-cart3 me-2"></i> Meu Carrinho
+        </h2>
+        
+        {% if carrinho %}
+        <div class="table-responsive">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Preço Unitário</th>
+                        <th class="text-center">Subtotal</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in carrinho %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" class="product-img me-3">
+                                <div>
+                                    <h5 class="product-name mb-1">{{ item.produto.nome }}</h5>
+                                    {% if item.produto.em_promocao %}
+                                    <span class="badge bg-warning text-dark">Promoção</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <form action="{% url 'carrinho:atualizar_carrinho' item.produto.id %}" method="post" class="quantity-control justify-content-center">
+                                {% csrf_token %}
+                                <input type="number" name="quantidade" value="{{ item.quantidade }}" min="1" class="quantity-input">
+                                <button type="submit" class="update-btn" title="Atualizar quantidade">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="text-center price-cell">R$ {{ item.preco_unitario|intcomma }}</td>
+                        <td class="text-center price-cell">R$ {{ item.subtotal|intcomma }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'carrinho:remover_carrinho' item.produto.id %}" class="remove-btn" title="Remover produto">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="d-flex justify-content-end mt-4">
+                <div class="cart-total px-4 py-2">
+                    <span class="me-3">Total do Carrinho:</span>
+                    <span>R$ {{ carrinho.get_total|intcomma }}</span>
+                </div>
+            </div>
+            
+            <div class="cart-actions">
+                <a href="{% url 'produtos:lista' %}" class="btn btn-continue">
+                    <i class="bi bi-arrow-left me-2"></i> Continuar Comprando
+                </a>
+                <a href="{% url 'pedidos:criar' %}" class="btn btn-checkout">
+                    <i class="bi bi-check-circle me-2"></i> Finalizar Compra
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-cart">
+            <i class="bi bi-cart-x empty-cart-icon"></i>
+            <h3 class="empty-cart-text">Seu carrinho está vazio</h3>
+            <p class="text-muted mb-4">Adicione produtos para começar a comprar</p>
+            <a href="{% url 'produtos:lista' %}" class="btn btn-start-shopping">
+                <i class="bi bi-bag me-2"></i> Começar a Comprar
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

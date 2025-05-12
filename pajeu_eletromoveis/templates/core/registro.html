@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Registro - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    .register-container {
+        max-width: 500px;
+        margin: 3rem auto;
+    }
+    
+    .register-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .register-header {
+        background-color: var(--azul-primario);
+        color: white;
+        padding: 1.25rem;
+        text-align: center;
+    }
+    
+    .register-title {
+        font-weight: 600;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+    
+    .register-body {
+        padding: 1.5rem;
+        background-color: #fff;
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: var(--azul-secundario);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.2s ease;
+    }
+    
+    .form-control:focus {
+        border-color: var(--azul-primario);
+        box-shadow: 0 0 0 0.2rem rgba(26, 95, 156, 0.1);
+    }
+    
+    .btn-register {
+        background-color: var(--azul-primario);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-weight: 500;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-register:hover {
+        background-color: var(--azul-secundario);
+    }
+    
+    .register-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #666;
+    }
+    
+    .register-footer a {
+        color: var(--azul-primario);
+        font-weight: 500;
+        text-decoration: none;
+    }
+    
+    .register-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .password-hint {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="register-container">
+    <div class="register-card">
+        <div class="register-header">
+            <h2 class="register-title">Criar Conta</h2>
+        </div>
+        <div class="register-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Usuário</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password1" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="password1" name="password1" required>
+                    <small class="password-hint">Mínimo de 8 caracteres</small>
+                </div>
+                <div class="mb-3">
+                    <label for="password2" class="form-label">Confirmar Senha</label>
+                    <input type="password" class="form-control" id="password2" name="password2" required>
+                </div>
+                <button type="submit" class="btn btn-register">Registrar</button>
+            </form>
+            
+            <div class="register-footer">
+                <p>Já tem uma conta? <a href="{% url 'core:login' %}">Faça login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

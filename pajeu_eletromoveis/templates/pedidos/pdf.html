@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pedido #{{ pedido.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Pedido #{{ pedido.id }}</h1>
+    <p>Data: {{ pedido.criado_em }}</p>
+    <p>Cliente: {{ pedido.primeiro_nome }} {{ pedido.sobrenome }}</p>
+    
+    <h2>Itens do Pedido</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in pedido.itens.all %}
+            <tr>
+                <td>{{ item.produto.nome }}</td>
+                <td>R$ {{ item.preco }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>R$ {{ item.get_custo }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Total: R$ {{ pedido.get_total }}</h3>
+</body>
+</html>

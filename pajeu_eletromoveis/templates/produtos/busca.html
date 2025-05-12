@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}Busca - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    .search-results-section {
+        padding: 3rem 0;
+    }
+    
+    .search-header {
+        margin-bottom: 2rem;
+    }
+    
+    .search-title {
+        font-weight: 700;
+        color: var(--azul-secundario);
+        margin-bottom: 1rem;
+    }
+    
+    .search-query {
+        font-size: 1.1rem;
+        color: #555;
+        margin-bottom: 1.5rem;
+    }
+    
+    .search-query strong {
+        color: var(--azul-primario);
+        font-weight: 600;
+    }
+    
+    .product-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: 100%;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-img-container {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+        padding: 1rem;
+    }
+    
+    .product-img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+    }
+    
+    .product-body {
+        padding: 1.5rem;
+    }
+    
+    .product-title {
+        font-weight: 600;
+        color: var(--azul-secundario);
+        margin-bottom: 0.75rem;
+        display: -webkit-box;
+        
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 3em;
+    }
+    
+    .product-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        height: 4.5em;
+    }
+    
+    .product-price {
+        font-weight: 700;
+        color: var(--azul-primario);
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .product-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .btn-details {
+        background-color: var(--azul-primario);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+    
+    .btn-details:hover {
+        background-color: var(--azul-secundario);
+        transform: translateY(-2px);
+    }
+    
+    .btn-add-cart {
+        background-color: white;
+        color: var(--azul-primario);
+        border: 1px solid var(--azul-primario);
+        border-radius: 8px;
+        padding: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+    
+    .btn-add-cart:hover {
+        background-color: var(--azul-primario);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .no-results-icon {
+        font-size: 3rem;
+        color: var(--azul-primario);
+        margin-bottom: 1rem;
+    }
+    
+    .no-results-text {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-view-all {
+        background-color: var(--azul-primario);
+        color: white;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-view-all:hover {
+        background-color: var(--azul-secundario);
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="search-results-section">
+    <div class="container">
+        <div class="search-header">
+            <h2 class="search-title">Resultados da Busca</h2>
+            {% if query %}
+                <p class="search-query">Você buscou por: <strong>"{{ query }}"</strong></p>
+            {% endif %}
+        </div>
+        
+        {% if produtos %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                {% for produto in produtos %}
+                    <div class="col">
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="{{ produto.imagem.url }}" class="product-img" alt="{{ produto.nome }}">
+                            </div>
+                            <div class="product-body">
+                                <h5 class="product-title">{{ produto.nome }}</h5>
+                                <p class="product-description">{{ produto.descricao }}</p>
+                                <p class="product-price">R$ {{ produto.preco|intcomma }}</p>
+                                <div class="product-actions">
+                                    <a href="{% url 'produtos:detalhe_produto' produto.id produto.slug %}" class="btn btn-details">
+                                        <i class="bi bi-eye me-1"></i> Ver Detalhes
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-results">
+                <i class="bi bi-search no-results-icon"></i>
+                <h3 class="no-results-text">Nenhum produto encontrado</h3>
+                <p class="text-muted mb-4">Não encontramos resultados para sua busca</p>
+                <a href="{% url 'produtos:lista' %}" class="btn btn-view-all">
+                    <i class="bi bi-grid me-2"></i> Ver Todos os Produtos
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

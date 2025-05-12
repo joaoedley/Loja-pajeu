@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Finalizar Pedido - Pajeú Eletromóveis{% endblock %}
+
+{% block conteudo %}
+<style>
+    :root {
+        --azul: #007BFF;
+        --cinza-claro: #f8f9fa;
+        --branco: #fff;
+        --preto: #222;
+        --fonte-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        --espacamento: 1rem;
+    }
+
+    body {
+        font-family: var(--fonte-principal);
+        background-color: var(--cinza-claro);
+        color: var(--preto);
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: var(--espacamento);
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--azul);
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--espacamento);
+    }
+
+    .col-md-8,
+    .col-md-4 {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .card {
+        background: var(--branco);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .card-header {
+        background-color: var(--azul);
+        color: white;
+        padding: 0.75rem 1rem;
+        border-radius: 12px 12px 0 0;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: var(--azul);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    }
+
+    .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .radio-group label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-finalizar {
+        background-color: var(--azul);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+        width: 100%;
+    }
+
+    .btn-finalizar:hover {
+        background-color: #0056b3;
+    }
+
+    .resumo-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+
+    .resumo-table th,
+    .resumo-table td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    .resumo-table tfoot th,
+    .resumo-table tfoot td {
+        font-weight: bold;
+        border-top: 2px solid var(--azul);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .row {
+            flex-direction: column;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        .card {
+            padding: 1rem;
+        }
+
+        .btn-finalizar {
+            font-size: 1rem;
+        }
+
+        .radio-group {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .radio-group {
+            flex-direction: column;
+        }
+
+        .row .col-md-6 {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container">
+    <h2>Finalizar Pedido</h2>
+
+    <div class="row">
+        <!-- Coluna principal -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Informações de Entrega</div>
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <label>Tipo de Entrega</label>
+                            <div class="radio-group">
+                                <label>
+                                    <input type="radio" name="tipo_entrega" value="envio" id="tipo_envio" checked onclick="toggleEndereco()">
+                                    Envio para Endereço
+                                </label>
+                                <label>
+                                    <input type="radio" name="tipo_entrega" value="retirada" id="tipo_retirada" onclick="toggleEndereco()">
+                                    Retirar na Loja
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="endereco_fields">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.primeiro_nome.id_for_label }}">Nome</label>
+                                        {{ form.primeiro_nome }}
+                                        {% if form.primeiro_nome.errors %}
+                                            <small class="text-danger">{{ form.primeiro_nome.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.sobrenome.id_for_label }}">Sobrenome</label>
+                                        {{ form.sobrenome }}
+                                        {% if form.sobrenome.errors %}
+                                            <small class="text-danger">{{ form.sobrenome.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.email.id_for_label }}">E-mail</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <small class="text-danger">{{ form.email.errors }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.endereco.id_for_label }}">Endereço</label>
+                                {{ form.endereco }}
+                                {% if form.endereco.errors %}
+                                    <small class="text-danger">{{ form.endereco.errors }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.complemento.id_for_label }}">Complemento</label>
+                                {{ form.complemento }}
+                                {% if form.complemento.errors %}
+                                    <small class="text-danger">{{ form.complemento.errors }}</small>
+                                {% endif %}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="{{ form.cep.id_for_label }}">CEP</label>
+                                        {{ form.cep }}
+                                        {% if form.cep.errors %}
+                                            <small class="text-danger">{{ form.cep.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="{{ form.cidade.id_for_label }}">Cidade</label>
+                                        {{ form.cidade }}
+                                        {% if form.cidade.errors %}
+                                            <small class="text-danger">{{ form.cidade.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="{{ form.estado.id_for_label }}">Estado</label>
+                                        {{ form.estado }}
+                                        {% if form.estado.errors %}
+                                            <small class="text-danger">{{ form.estado.errors }}</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.telefone.id_for_label }}">Telefone</label>
+                            {{ form.telefone }}
+                            {% if form.telefone.errors %}
+                                <small class="text-danger">{{ form.telefone.errors }}</small>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn-finalizar">
+                            Finalizar Pedido
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna lateral -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Resumo do Pedido</div>
+                <div class="card-body">
+                    <table class="resumo-table">
+                        <tbody>
+                            {% for item in carrinho %}
+                            <tr>
+                                <td>{{ item.produto.nome }} x {{ item.quantidade }}</td>
+                                <td class="text-end">R$ {{ item.subtotal }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th class="text-end">R$ {{ carrinho.get_total }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleEndereco() {
+    const selectedValue = document.querySelector('input[name="tipo_entrega"]:checked').value;
+    const enderecoFields = document.getElementById('endereco_fields');
+    enderecoFields.style.display = selectedValue === 'envio' ? 'block' : 'none';
+}
+window.onload = toggleEndereco;
+</script>
+{% endblock %}

@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}Pedido Realizado com Sucesso - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    :root {
+        --azul-primario: #007bff;
+        --azul-secundario: #28a745;
+        --cinza-claro: #f9f9f9;
+        --branco: #fff;
+        --preto: #222;
+        --fonte-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        --espacamento: 1rem;
+    }
+
+    body {
+        font-family: var(--fonte-principal);
+        background-color: var(--branco);
+        color: var(--preto);
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: var(--espacamento);
+    }
+
+    .confirmation-section {
+        padding: 4rem 0;
+        background-color: var(--cinza-claro);
+        min-height: calc(100vh - 150px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .confirmation-card {
+        background-color: var(--branco);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        padding: 3rem 2rem;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .confirmation-icon {
+        font-size: 5rem;
+        color: var(--azul-secundario);
+        margin-bottom: 1.5rem;
+        animation: bounce 1s ease infinite alternate;
+    }
+
+    @keyframes bounce {
+        from { transform: translateY(0); }
+        to { transform: translateY(-10px); }
+    }
+
+    .confirmation-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--azul-primario);
+        margin-bottom: 1rem;
+    }
+
+    .confirmation-subtitle {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 2rem;
+    }
+
+    .confirmation-details {
+        background-color: rgba(40, 167, 69, 0.1);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        text-align: left;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: var(--azul-primario);
+    }
+
+    .confirmation-actions {
+        margin-top: 2rem;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-continue {
+        background: linear-gradient(135deg, var(--azul-primario), var(--azul-secundario));
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-continue:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(26, 95, 156, 0.2);
+    }
+
+    .btn-orders {
+        background-color: white;
+        color: var(--azul-primario);
+        border: 1px solid var(--azul-primario);
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .btn-orders:hover {
+        background-color: rgba(26, 95, 156, 0.1);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 576px) {
+        .confirmation-card {
+            max-width: 100%;
+        }
+
+        .confirmation-actions {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .btn-continue, .btn-orders {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="confirmation-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="confirmation-card">
+                    <i class="bi bi-check-circle-fill confirmation-icon"></i>
+                    <h2 class="confirmation-title">Pedido Realizado com Sucesso!</h2>
+                    <p class="confirmation-subtitle">Obrigado por comprar na Pajeú Eletromóveis</p>
+
+                    <div class="confirmation-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Número do Pedido:</span>
+                            <span>#{{ pedido.id }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Data:</span>
+                            <span>{{ pedido.criado_em|date:"d/m/Y H:i" }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Total:</span>
+                            <span class="fw-bold">R$ {{ pedido.get_total }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Status:</span>
+                            <span class="badge bg-success">Confirmado</span>
+                        </div>
+                    </div>
+
+                    <p>Enviamos os detalhes do seu pedido para <strong>{{ pedido.email }}</strong>.</p>
+                    <p class="text-muted">Em caso de dúvidas, entre em contato conosco.</p>
+
+                    <div class="confirmation-actions">
+                        <a href="{% url 'produtos:lista' %}" class="btn btn-continue">
+                            <i class="bi bi-arrow-left me-2"></i> Continuar Comprando
+                        </a>
+                        <a href="{% url 'core:meus_pedidos' %}" class="btn btn-orders">
+                            <i class="bi bi-receipt me-2"></i> Ver Meus Pedidos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

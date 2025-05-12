@@ -1,0 +1,258 @@
+<footer class="footer bg-azul text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Sobre a Loja -->
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-about">
+                    <a href="{% url 'core:inicio' %}" class="d-block mb-3">
+                        {% load static %}
+                        {% if site_logo %}
+                            <img src="{{ site_logo }}" alt="Pajeú Eletromóveis" class="footer-logo">
+                        {% else %}
+                            <img src="{% static 'img/logo-padrao.png' %}" alt="Pajeú Eletromóveis" class="footer-logo">
+                        {% endif %}
+                    </a>
+                    <p class="mb-3">A melhor loja de eletrodomésticos da região! Oferecemos produtos de qualidade com os melhores preços.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Links Rápidos -->
+            <div class="col-lg-2 col-md-6">
+                <div class="footer-links">
+                    <h5 class="footer-title">Links Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{% url 'core:inicio' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Início</a></li>
+                        <li class="mb-2"><a href="{% url 'produtos:lista' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Produtos</a></li>
+                        <li class="mb-2"><a href="{% url 'core:contato' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Contato</a></li>
+                        <li class="mb-2"><a href="{% url 'core:sobre' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Sobre Nós</a></li>
+                        <li class="mb-2"><a href="{% url 'core:politica_privacidade' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Política de Privacidade</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contato -->
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-contact">
+                    <h5 class="footer-title">Contato</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="bi bi-geo-alt-fill me-3 mt-1"></i>
+                            <span>Rua Exemplo, 123 - Centro<br>Petrolina/PE - CEP: 56300-000</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-telephone-fill me-3"></i>
+                            <span>(87) 9999-9999</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-whatsapp me-3"></i>
+                            <span>(87) 98888-8888</span>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <i class="bi bi-envelope-fill me-3"></i>
+                            <span>contato@pajeueletromoveis.com.br</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-newsletter">
+                    <h5 class="footer-title">Receba Ofertas</h5>
+                    <p class="mb-3">Cadastre-se para receber nossas promoções e novidades por e-mail.</p>
+                    <form action="{% url 'core:newsletter' %}" method="post" class="mb-3">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="Seu e-mail" aria-label="Seu e-mail" required>
+                            <button class="btn btn-amarelo" type="submit">
+                                <i class="bi bi-send"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <h5 class="footer-title mt-4">Pagamento Seguro</h5>
+                    <div class="payment-methods">
+                        <img src="{% static 'img/payments/pix.png' %}" alt="PIX" class="payment-icon">
+                        <img src="{% static 'img/payments/visa.png' %}" alt="Visa" class="payment-icon">
+                        <img src="{% static 'img/payments/mastercard.png' %}" alt="Mastercard" class="payment-icon">
+                        <img src="{% static 'img/payments/elo.png' %}" alt="Elo" class="payment-icon">
+                        <img src="{% static 'img/payments/boleto.png' %}" alt="Boleto" class="payment-icon">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4 bg-light opacity-25">
+
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="mb-0">&copy; <span id="current-year"></span> Pajeú Eletromóveis. Todos os direitos reservados.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0">
+                    <a href="{% url 'core:termos_uso' %}" class="footer-link me-3">Termos de Uso</a>
+                    <a href="{% url 'core:politica_privacidade' %}" class="footer-link">Política de Privacidade</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        background: linear-gradient(135deg, var(--azul-primario), var(--azul-secundario));
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('{% static "img/wave-pattern.png" %}') repeat;
+        opacity: 0.05;
+        pointer-events: none;
+    }
+    
+    .footer-logo {
+        height: 50px;
+        transition: transform 0.3s ease;
+    }
+    
+    .footer-logo:hover {
+        transform: scale(1.05);
+    }
+    
+    .footer-title {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 1.2rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+    
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 3px;
+        background-color: var(--amarelo-primario);
+    }
+    
+    .footer-link {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+    }
+    
+    .footer-link:hover {
+        color: var(--amarelo-primario);
+        transform: translateX(5px);
+    }
+    
+    .social-links {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .social-link {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        font-size: 1.1rem;
+    }
+    
+    .social-link:hover {
+        background-color: var(--amarelo-primario);
+        color: black;
+        transform: translateY(-3px);
+    }
+    
+    .payment-methods {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .payment-icon {
+        width: 50px;
+        height: 30px;
+        object-fit: contain;
+        background-color: white;
+        padding: 3px;
+        border-radius: 4px;
+        transition: transform 0.3s ease;
+    }
+    
+    .payment-icon:hover {
+        transform: scale(1.1);
+    }
+    
+    .form-control {
+        border-radius: 50px 0 0 50px;
+        border: none;
+    }
+    
+    .btn-amarelo {
+        border-radius: 0 50px 50px 0;
+    }
+    
+    @media (max-width: 767.98px) {
+        .footer-title::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .footer-title {
+            text-align: center;
+        }
+        
+        .footer-links ul, .footer-contact ul {
+            text-align: center;
+        }
+        
+        .footer-link {
+            justify-content: center;
+        }
+        
+        .social-links {
+            justify-content: center;
+        }
+        
+        .payment-methods {
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    // Atualiza o ano atual automaticamente
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Adiciona efeito de hover nos links do footer
+    document.querySelectorAll('.footer-link').forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.querySelector('i').style.transform = 'translateX(3px)';
+        });
+        link.addEventListener('mouseleave', function() {
+            this.querySelector('i').style.transform = 'translateX(0)';
+        });
+    });
+</script>

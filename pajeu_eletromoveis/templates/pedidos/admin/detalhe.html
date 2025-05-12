@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Detalhe do Pedido #{{ pedido.id }}{% endblock %}
+
+{% block css %}
+<style>
+    :root {
+        --azul: #007bff;
+        --cinza-claro: #f8f9fa;
+        --branco: #fff;
+        --preto: #222;
+        --fonte-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        --espacamento: 1rem;
+    }
+
+    body {
+        font-family: var(--fonte-principal);
+        background-color: var(--cinza-claro);
+        color: var(--preto);
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: var(--espacamento);
+    }
+
+    h2, h3 {
+        color: var(--azul);
+        margin-bottom: 1.5rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: var(--branco);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+
+    th, td {
+        padding: 1rem;
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background-color: var(--cinza-claro);
+        font-weight: 600;
+        color: var(--preto);
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tfoot td {
+        font-weight: bold;
+        background-color: var(--cinza-claro);
+        border-top: 2px solid var(--azul);
+    }
+
+    @media (max-width: 768px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+
+        thead {
+            display: none;
+        }
+
+        tr {
+            margin-bottom: 1rem;
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        td::before {
+            content: attr(data-label);
+            font-weight: bold;
+            color: var(--azul);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Pedido #{{ pedido.id }}</h2>
+
+            <table class="table">
+                <tr>
+                    <td data-label="Data">{{ pedido.criado_em|date:"d/m/Y H:i" }}</td>
+                    <td data-label="Cliente">{{ pedido.primeiro_nome }} {{ pedido.sobrenome }}</td>
+                    <td data-label="E-mail">{{ pedido.email }}</td>
+                    <td data-label="Endereço">{{ pedido.endereco }}, {{ pedido.cidade }} - {{ pedido.estado }}</td>
+                    <td data-label="Status">{{ pedido.get_status_display }}</td>
+                </tr>
+            </table>
+
+            <h3>Itens do Pedido</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pedido.itens.all %}
+                    <tr>
+                        <td data-label="Produto">{{ item.produto.nome }}</td>
+                        <td data-label="Preço">R$ {{ item.preco }}</td>
+                        <td data-label="Quantidade">{{ item.quantidade }}</td>
+                        <td data-label="Subtotal">R$ {{ item.get_custo }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3" data-label="Total"><strong>Total</strong></td>
+                        <td><strong>R$ {{ pedido.get_total }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

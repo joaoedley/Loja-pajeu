@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block titulo %}Todos os Produtos - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    .products-section {
+        padding: 3rem 0;
+    }
+    
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .section-title {
+        font-weight: 700;
+        color: var(--azul-secundario);
+        position: relative;
+        display: inline-block;
+        padding-bottom: 15px;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--azul-primario), var(--amarelo-primario));
+        border-radius: 2px;
+    }
+    
+    .product-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        margin-bottom: 1.5rem;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-img-container {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+        padding: 20px;
+        position: relative;
+    }
+    
+    .product-img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    
+    .product-card:hover .product-img {
+        transform: scale(1.05);
+    }
+    
+    .product-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: var(--amarelo-primario);
+        color: #000;
+        font-weight: 600;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-body {
+        padding: 1.5rem;
+    }
+    
+    .product-title {
+        font-weight: 600;
+        color: var(--azul-secundario);
+        margin-bottom: 0.75rem;
+        display: -webkit-box;
+        
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 50px;
+    }
+    
+    .product-price {
+        font-weight: 700;
+        color: var(--azul-primario);
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+    
+    .product-old-price {
+        text-decoration: line-through;
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+    }
+    
+    .btn-details {
+        background-color: var(--azul-primario);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    .btn-details:hover {
+        background-color: var(--azul-secundario);
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 767.98px) {
+        .product-img-container {
+            height: 180px;
+        }
+        
+        .product-body {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="products-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Todos os Produtos</h2>
+        </div>
+        
+        <div class="row">
+            {% for produto in produtos %}
+            <div class="col-lg-3 col-md-6">
+                <div class="product-card">
+                    <div class="product-img-container">
+                        <img src="{{ produto.imagem.url }}" class="product-img" alt="{{ produto.nome }}">
+                        {% if produto.em_promocao %}
+                        <span class="product-badge">Promoção</span>
+                        {% endif %}
+                    </div>
+                    <div class="product-body">
+                        <h5 class="product-title">{{ produto.nome }}</h5>
+                        <div class="product-price">
+                            {% if produto.em_promocao %}
+                            <span class="product-old-price">R$ {{ produto.preco|intcomma }}</span>
+                            R$ {{ produto.preco_promocional|intcomma }}
+                            {% else %}
+                            R$ {{ produto.preco|intcomma }}
+                            {% endif %}
+                        </div>
+                        <a href="{{ produto.get_absolute_url }}" class="btn btn-details">
+                            <i class="bi bi-eye me-1"></i> Ver Detalhes
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

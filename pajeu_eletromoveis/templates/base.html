@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pajeú Eletromóveis - {% block titulo %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul-primario: #1a5f9c;
+            --azul-secundario: #0d3b66;
+            --amarelo-primario: #ffc107;
+            --amarelo-secundario: #ffab00;
+            --branco: #ffffff;
+            --cinza-claro: #f8f9fa;
+            --cinza-escuro: #343a40;
+            --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transicao: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cinza-claro);
+            color: var(--cinza-escuro);
+            line-height: 1.6;
+        }
+        
+        .bg-azul {
+            background-color: var(--azul-primario);
+        }
+        
+        .bg-amarelo {
+            background-color: var(--amarelo-primario);
+        }
+        
+        .text-azul {
+            color: var(--azul-primario);
+        }
+        
+        .text-amarelo {
+            color: var(--amarelo-primario);
+        }
+        
+        .btn-azul {
+            background-color: var(--azul-primario);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: var(--transicao);
+            box-shadow: var(--sombra);
+        }
+        
+        .btn-azul:hover {
+            background-color: var(--azul-secundario);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-amarelo {
+            background-color: var(--amarelo-primario);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: var(--transicao);
+            box-shadow: var(--sombra);
+        }
+        
+        .btn-amarelo:hover {
+            background-color: var(--amarelo-secundario);
+            color: black;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .navbar {
+            box-shadow: var(--sombra);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand img {
+            height: 50px;
+            transition: var(--transicao);
+        }
+        
+        .navbar-brand img:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: var(--transicao);
+            margin: 0 5px;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .banner-principal {
+            height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+        }
+        
+        .banner-mobile {
+            display: none;
+        }
+        
+        .card-produto {
+            transition: var(--transicao);
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            margin-bottom: 20px;
+        }
+        
+        .card-produto:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-img-top {
+            height: 200px;
+            object-fit: contain;
+            background-color: var(--cinza-claro);
+            padding: 20px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .preco {
+            font-weight: bold;
+            color: var(--azul-primario);
+            font-size: 1.2rem;
+        }
+        
+        .preco-promocional {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .badge-promocao {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--amarelo-primario);
+            color: black;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: var(--sombra);
+        }
+        
+        footer {
+            background-color: var(--azul-primario);
+            color: white;
+            padding: 50px 0 0;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        footer h5 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        footer h5::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--amarelo-primario);
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transicao);
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        
+        footer a:hover {
+            color: var(--amarelo-primario);
+            transform: translateX(5px);
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: var(--transicao);
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--amarelo-primario);
+            color: black;
+            transform: translateY(-3px);
+        }
+        
+        .pagamento-icon {
+            width: 50px;
+            height: 30px;
+            object-fit: contain;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: white;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        
+        .main-container {
+            min-height: calc(100vh - 400px);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul-primario), var(--amarelo-primario));
+            border-radius: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .banner-desktop {
+                display: none;
+            }
+            
+            .banner-mobile {
+                display: block;
+                height: 250px;
+                object-fit: cover;
+                border-radius: 10px;
+                box-shadow: var(--sombra);
+            }
+            
+            footer {
+                text-align: center;
+            }
+            
+            footer h5::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
+    {% block css %}{% endblock %}
+</head>
+<body>
+    {% include 'includes/navbar.html' %}
+    
+    {% if messages %}
+      <div class="container mt-3">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill{% elif message.tags == 'danger' %}bi-exclamation-triangle-fill{% else %}bi-info-circle-fill{% endif %} me-2"></i>
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <!-- Conteúdo Principal -->
+    <main class="main-container py-4">
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h5>Pajeú Eletromóveis</h5>
+                    <p class="mb-4">A melhor loja de eletrodomésticos da região. Oferecemos qualidade e os melhores preços para você.</p>
+                    <div class="social-icons d-flex">
+                        <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-whatsapp"></i></a>
+                        <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Institucional</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Sobre Nós</a></li>
+                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Nossas Lojas</a></li>
+                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Trabalhe Conosco</a></li>
+                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Política de Privacidade</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Atendimento</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> (87) 9999-9999</li>
+                        <li class="mb-2"><i class="bi bi-whatsapp me-2"></i> (87) 98888-8888</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> contato@pajeueletromoveis.com.br</li>
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Rua Exemplo, 123 - Centro</li>
+                        <li><i class="bi bi-clock me-2"></i> Seg-Sex: 8h às 18h | Sáb: 8h às 12h</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Formas de Pagamento</h5>
+                    <div class="d-flex flex-wrap">
+                        <img src="/media/pagamentos/pix.png" alt="PIX" class="pagamento-icon">
+                        <img src="/media/pagamentos/visa.png" alt="Visa" class="pagamento-icon">
+                        <img src="/media/pagamentos/mastercard.png" alt="Mastercard" class="pagamento-icon">
+                        <img src="/media/pagamentos/amex.png" alt="American Express" class="pagamento-icon">
+                        <img src="/media/pagamentos/boleto.png" alt="Boleto" class="pagamento-icon">
+                        <img src="/media/pagamentos/hipercard.png" alt="Hipercard" class="pagamento-icon">
+                        <img src="/media/pagamentos/elo.png" alt="Elo" class="pagamento-icon">
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-light opacity-25">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="mb-0">&copy; 2023 Pajeú Eletromóveis. Todos os direitos reservados.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0">CNPJ: 00.000.000/0001-00</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Adiciona classe ativa ao item de menu correspondente à página atual
+        $(document).ready(function() {
+            const currentPath = window.location.pathname;
+            $('.nav-link').each(function() {
+                const linkPath = $(this).attr('href');
+                if (currentPath === linkPath) {
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
+    {% block js %}{% endblock %}
+</body>
+</html>

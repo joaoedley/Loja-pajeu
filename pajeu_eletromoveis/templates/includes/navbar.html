@@ -1,0 +1,254 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-azul shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'core:inicio' %}">
+            {% load static %}
+            {% if site_logo %}
+                <img src="{{ site_logo }}" alt="Logo" class="navbar-logo">
+            {% else %}
+                <img src="{% static 'img/logo-padrao.png' %}" alt="Logo Padrão" class="navbar-logo">
+            {% endif %}
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'core:inicio' %}">
+                        <i class="bi bi-house-door me-1"></i> Início
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if 'categoria' in request.path %}active{% endif %}" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-grid me-1"></i> Categorias
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="categoriasDropdown">
+                        {% for categoria in categorias_menu %}
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ categoria.get_absolute_url }}">
+                                {% if categoria.icone %}
+                                    <i class="bi bi-{{ categoria.icone }} me-2"></i>
+                                {% endif %}
+                                {{ categoria.nome }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'todos-produtos' in request.path %}active{% endif %}" href="{% url 'core:todos_produtos' %}">
+                        <i class="bi bi-box-seam me-1"></i> Produtos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if 'contato' in request.path %}active{% endif %}" href="{% url 'core:contato' %}">
+                        <i class="bi bi-headset me-1"></i> Contato
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="d-flex align-items-center">
+                <!-- Barra de pesquisa -->
+                <form class="d-flex me-3 search-form" action="{% url 'produtos:busca' %}" method="get">
+                    <div class="input-group">
+                        <input class="form-control search-input" type="search" name="q" placeholder="Buscar produtos..." aria-label="Buscar">
+                        <button class="btn btn-amarelo search-btn" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Carrinho -->
+                <a href="{% url 'carrinho:detalhe_carrinho' %}" class="btn btn-amarelo btn-icon position-relative me-2">
+                    <i class="bi bi-cart3"></i>
+                    {% with total_itens=carrinho|length %}
+                        {% if total_itens > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ total_itens }}
+                                <span class="visually-hidden">itens no carrinho</span>
+                            </span>
+                        {% endif %}
+                    {% endwith %}
+                </a>
+                
+                <!-- Usuário -->
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-amarelo dropdown-toggle user-dropdown" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i>
+                            <span class="d-none d-lg-inline">{{ user.first_name|default:user.username }}</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li>
+                                <span class="dropdown-header">
+                                    Olá, <strong>{{ user.first_name|default:user.username }}</strong>
+                                </span>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'core:perfil' %}">
+                                    <i class="bi bi-person me-2"></i> Meu Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'core:meus_pedidos' %}">
+                                    <i class="bi bi-receipt me-2"></i> Meus Pedidos
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{% url 'core:logout' %}">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Sair
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url 'core:login' %}" class="btn btn-amarelo">
+                        <i class="bi bi-person me-1"></i>
+                        <span class="d-none d-lg-inline">Entrar</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .navbar {
+        padding: 0.5rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .navbar.scrolled {
+        padding: 0.3rem 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .navbar-logo {
+        height: 50px;
+        transition: transform 0.3s ease;
+    }
+    
+    .navbar-logo:hover {
+        transform: scale(1.05);
+    }
+    
+    .nav-link {
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        margin: 0 0.2rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .nav-link.active {
+        font-weight: 600;
+    }
+    
+    .search-form {
+        position: relative;
+    }
+    
+    .search-input {
+        border-radius: 50px;
+        padding: 0.5rem 1.2rem;
+        border: none;
+        min-width: 200px;
+        transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    }
+    
+    .search-btn {
+        border-radius: 50px;
+        margin-left: -40px;
+        padding: 0.5rem 1rem;
+        z-index: 2;
+    }
+    
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border-radius: 50%;
+    }
+    
+    .user-dropdown {
+        display: flex;
+        align-items: center;
+        padding: 0.4rem 1rem;
+        border-radius: 50px;
+    }
+    
+    .dropdown-menu {
+        border: none;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+    
+    .dropdown-item {
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.2s ease;
+    }
+    
+    .dropdown-item:hover {
+        background-color: rgba(26, 95, 156, 0.1);
+    }
+    
+    .dropdown-header {
+        font-size: 0.85rem;
+        color: #6c757d;
+        padding: 0.5rem 1rem;
+    }
+    
+    @media (max-width: 992px) {
+        .search-form {
+            width: 100%;
+            margin: 1rem 0;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+        
+        .navbar-collapse {
+            padding-bottom: 1rem;
+        }
+    }
+</style>
+
+<script>
+    // Efeito de scroll na navbar
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // Fechar dropdown ao clicar em um item (para mobile)
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const dropdown = this.closest('.dropdown-menu');
+            if (dropdown) {
+                const dropdownInstance = bootstrap.Dropdown.getInstance(dropdown.previousElementSibling);
+                dropdownInstance.hide();
+            }
+        });
+    });
+</script>

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Contato - Pajeú Eletromóveis{% endblock %}
+
+{% block css %}
+<style>
+    .contact-container {
+        max-width: 800px;
+        margin: 2rem auto;
+    }
+    
+    .contact-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    
+    .contact-header {
+        background: linear-gradient(135deg, var(--azul-primario), var(--azul-secundario));
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    
+    .contact-title {
+        font-weight: 700;
+        margin: 0;
+        font-size: 1.8rem;
+    }
+    
+    .contact-body {
+        padding: 2rem;
+        background-color: #fff;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--azul-secundario);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: var(--azul-primario);
+        box-shadow: 0 0 0 0.25rem rgba(26, 95, 156, 0.1);
+    }
+    
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+    
+    .btn-submit {
+        background: linear-gradient(135deg, var(--azul-primario), var(--azul-secundario));
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 250px;
+        margin: 1rem auto 0;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(26, 95, 156, 0.2);
+    }
+    
+    .btn-submit i {
+        margin-right: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .contact-container {
+            padding: 0 1rem;
+        }
+        
+        .contact-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block conteudo %}
+<div class="contact-container">
+    <div class="contact-card">
+        <div class="contact-header">
+            <h2 class="contact-title">
+                <i class="bi bi-headset me-2"></i> Fale Conosco
+            </h2>
+        </div>
+        <div class="contact-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="nome" class="form-label">Nome Completo</label>
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="seu@email.com" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="assunto" class="form-label">Assunto</label>
+                    <input type="text" class="form-control" id="assunto" name="assunto" placeholder="Sobre o que deseja falar?" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="mensagem" class="form-label">Mensagem</label>
+                    <textarea class="form-control" id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit">
+                    <i class="bi bi-send-fill"></i> Enviar Mensagem
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

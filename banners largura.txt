@@ -1,0 +1,8 @@
+Resumo prático para criar no Canva:
+Banner Desktop: 1920 x 500 px
+Banner Mobile: 800 x 600 px
+Logo: Altura 60 px, largura proporcional (ex: 240 x 60 px)
+Produto: 600 x 600 px
+Sobre Nós: 1200 x 400 px
+Se quiser ajustar algum tamanho específico do seu layout, me avise!
+Se quiser, posso te mostrar como alterar o CSS para aceitar outros tamanhos também.

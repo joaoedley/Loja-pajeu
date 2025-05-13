@@ -12,4 +12,5 @@ urlpatterns = [
     path('perfil/', views.perfil, name='perfil'),
     path('meus-pedidos/', views.meus_pedidos, name='meus_pedidos'),  # Nova URL
     path('todos-produtos/', views.todos_produtos, name='todos_produtos'),
+    path('sobre/', views.sobre_site, name='sobre'),
 ]

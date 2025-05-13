@@ -16,8 +16,8 @@
                     <div class="social-links">
                         <a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
                         <a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="social-link" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
-                        <a href="#" class="social-link" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -31,7 +31,6 @@
                         <li class="mb-2"><a href="{% url 'produtos:lista' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Produtos</a></li>
                         <li class="mb-2"><a href="{% url 'core:contato' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Contato</a></li>
                         <li class="mb-2"><a href="{% url 'core:sobre' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Sobre Nós</a></li>
-                        <li class="mb-2"><a href="{% url 'core:politica_privacidade' %}" class="footer-link"><i class="bi bi-chevron-right me-2"></i>Política de Privacidade</a></li>
                     </ul>
                 </div>
             </div>
@@ -43,19 +42,19 @@
                     <ul class="list-unstyled">
                         <li class="mb-3 d-flex align-items-start">
                             <i class="bi bi-geo-alt-fill me-3 mt-1"></i>
-                            <span>Rua Exemplo, 123 - Centro<br>Petrolina/PE - CEP: 56300-000</span>
+                            <span>Saturnino Bezerra Carnaiba-PE/Centro. - CEP: 56820-000</span>
                         </li>
                         <li class="mb-3 d-flex align-items-center">
                             <i class="bi bi-telephone-fill me-3"></i>
-                            <span>(87) 9999-9999</span>
+                            <span>(87)99603-8004</span>
                         </li>
                         <li class="mb-3 d-flex align-items-center">
                             <i class="bi bi-whatsapp me-3"></i>
-                            <span>(87) 98888-8888</span>
+                            <span>(87)99603-8004</span>
                         </li>
                         <li class="d-flex align-items-center">
                             <i class="bi bi-envelope-fill me-3"></i>
-                            <span>contato@pajeueletromoveis.com.br</span>
+                            <span>pajeueletromoveis@gmail.com</span>
                         </li>
                     </ul>
                 </div>
@@ -65,23 +64,16 @@
             <div class="col-lg-3 col-md-6">
                 <div class="footer-newsletter">
                     <h5 class="footer-title">Receba Ofertas</h5>
-                    <p class="mb-3">Cadastre-se para receber nossas promoções e novidades por e-mail.</p>
-                    <form action="{% url 'core:newsletter' %}" method="post" class="mb-3">
-                        {% csrf_token %}
-                        <div class="input-group mb-3">
-                            <input type="email" name="email" class="form-control" placeholder="Seu e-mail" aria-label="Seu e-mail" required>
-                            <button class="btn btn-amarelo" type="submit">
-                                <i class="bi bi-send"></i>
-                            </button>
+                    <p class="mb-4">Em breve você poderá se cadastrar para receber nossas promoções e novidades por e-mail.</p>
+                    <div class="mt-5">
+                        <h5 class="footer-title">Pagamento Seguro</h5>
+                        <div class="payment-methods">
+                            <img src="../../media/pagamentos/pix.png" alt="PIX" class="payment-icon">
+                            <img src="../../media/pagamentos/visa.png" alt="Visa" class="payment-icon">
+                            <img src="../../media/pagamentos/mastercard.png" alt="Mastercard" class="payment-icon">
+                            <img src="" alt="Elo" class="payment-icon">
+                            <img src="../../media/pagamentos/boleto.png" alt="Boleto" class="payment-icon">
                         </div>
-                    </form>
-                    <h5 class="footer-title mt-4">Pagamento Seguro</h5>
-                    <div class="payment-methods">
-                        <img src="{% static 'img/payments/pix.png' %}" alt="PIX" class="payment-icon">
-                        <img src="{% static 'img/payments/visa.png' %}" alt="Visa" class="payment-icon">
-                        <img src="{% static 'img/payments/mastercard.png' %}" alt="Mastercard" class="payment-icon">
-                        <img src="{% static 'img/payments/elo.png' %}" alt="Elo" class="payment-icon">
-                        <img src="{% static 'img/payments/boleto.png' %}" alt="Boleto" class="payment-icon">
                     </div>
                 </div>
             </div>
@@ -95,8 +87,7 @@
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <p class="mb-0">
-                    <a href="{% url 'core:termos_uso' %}" class="footer-link me-3">Termos de Uso</a>
-                    <a href="{% url 'core:politica_privacidade' %}" class="footer-link">Política de Privacidade</a>
+                    <!-- Links temporariamente removidos -->
                 </p>
             </div>
         </div>
@@ -185,10 +176,15 @@
         transform: translateY(-3px);
     }
     
+    .footer-newsletter {
+        margin-top: 1rem;
+    }
+    
     .payment-methods {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+        margin-top: 1rem;
     }
     
     .payment-icon {
@@ -236,8 +232,13 @@
             justify-content: center;
         }
         
+        .footer-newsletter {
+            margin-top: 2rem;
+        }
+        
         .payment-methods {
             justify-content: center;
+            margin-top: 1.5rem;
         }
     }
 </style>

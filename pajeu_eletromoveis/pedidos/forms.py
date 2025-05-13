@@ -4,55 +4,37 @@ from .models import Pedido
 
 class PedidoForm(forms.ModelForm):
     class Meta:
-        model = Pedido  
-        fields = ['primeiro_nome', 'sobrenome', 'email', 'endereco', 
-                 'complemento', 'cep', 'cidade', 'estado', 'telefone',
-                 'tipo_entrega']
-        
-        ESTADOS_CHOICES = [
-            ('', 'Selecione...'),
-            ('AC', 'Acre'),
-            ('AL', 'Alagoas'),
-            ('AP', 'Amapá'),
-            ('AM', 'Amazonas'),
-            ('BA', 'Bahia'),
-            ('CE', 'Ceará'),
-            ('DF', 'Distrito Federal'),
-            ('ES', 'Espírito Santo'),
-            ('GO', 'Goiás'),
-            ('MA', 'Maranhão'),
-            ('MT', 'Mato Grosso'),
-            ('MS', 'Mato Grosso do Sul'),
-            ('MG', 'Minas Gerais'),
-            ('PA', 'Pará'),
-            ('PB', 'Paraíba'),
-            ('PR', 'Paraná'),
-            ('PE', 'Pernambuco'),
-            ('PI', 'Piauí'),
-            ('RJ', 'Rio de Janeiro'),
-            ('RN', 'Rio Grande do Norte'),
-            ('RS', 'Rio Grande do Sul'),
-            ('RO', 'Rondônia'),
-            ('RR', 'Roraima'),
-            ('SC', 'Santa Catarina'),
-            ('SP', 'São Paulo'),
-            ('SE', 'Sergipe'),
-            ('TO', 'Tocantins'),
-        ]
-        
+        model = Pedido
+        fields = ['primeiro_nome', 'sobrenome', 'email', 'telefone', 'endereco', 'complemento', 'cep', 'cidade', 'estado', 'tipo_entrega']
         widgets = {
-            'primeiro_nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'sobrenome': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'endereco': forms.TextInput(attrs={'class': 'form-control'}),
-            'complemento': forms.TextInput(attrs={'class': 'form-control'}),
-            'cep': forms.TextInput(attrs={'class': 'form-control'}),
-            'cidade': forms.TextInput(attrs={'class': 'form-control'}),
-            'estado': forms.Select(attrs={'class': 'form-select'}, choices=ESTADOS_CHOICES),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_entrega': forms.RadioSelect(attrs={'class': 'form-check-input'}),
+            'tipo_entrega': forms.RadioSelect(),
         }
-    
+
+    def clean(self):
+        cleaned_data = super().clean()
+        tipo_entrega = cleaned_data.get('tipo_entrega')
+        
+        # Se for retirada na loja, não precisa validar os campos de endereço
+        if tipo_entrega == 'retirada':
+            return cleaned_data
+            
+        # Validação para envio para endereço
+        endereco = cleaned_data.get('endereco')
+        cep = cleaned_data.get('cep')
+        cidade = cleaned_data.get('cidade')
+        estado = cleaned_data.get('estado')
+        
+        if not endereco:
+            self.add_error('endereco', 'Este campo é obrigatório.')
+        if not cep:
+            self.add_error('cep', 'Este campo é obrigatório.')
+        if not cidade:
+            self.add_error('cidade', 'Este campo é obrigatório.')
+        if not estado:
+            self.add_error('estado', 'Este campo é obrigatório.')
+            
+        return cleaned_data
+
     cep = forms.CharField(
         validators=[RegexValidator(r'^\d{5}-?\d{3}$', 'CEP inválido')],
         widget=forms.TextInput(attrs={'class': 'form-control'})

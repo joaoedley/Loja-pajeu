@@ -24,8 +24,8 @@ def criar_pedido(request):
             # Se for retirada na loja, não precisa de endereço
             if pedido.tipo_entrega == 'retirada':
                 pedido.endereco = 'Retirada na Loja'
-                pedido.complemento = ''
-                pedido.cep = ''
+                pedido.complemento = 'Retirada na Loja'
+                pedido.cep = '00000-000'
                 pedido.cidade = 'Afogados da Ingazeira'
                 pedido.estado = 'PE'
             

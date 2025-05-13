@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --azul-primario: #1a5f9c;
@@ -314,62 +315,8 @@
     </main>
 
     <!-- Rodapé -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <h5>Pajeú Eletromóveis</h5>
-                    <p class="mb-4">A melhor loja de eletrodomésticos da região. Oferecemos qualidade e os melhores preços para você.</p>
-                    <div class="social-icons d-flex">
-                        <a href="#" class="me-2"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="me-2"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="me-2"><i class="bi bi-whatsapp"></i></a>
-                        <a href="#" class="me-2"><i class="bi bi-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5>Institucional</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Sobre Nós</a></li>
-                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Nossas Lojas</a></li>
-                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Trabalhe Conosco</a></li>
-                        <li><a href="#"><i class="bi bi-chevron-right me-2"></i>Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5>Atendimento</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-telephone me-2"></i> (87) 9999-9999</li>
-                        <li class="mb-2"><i class="bi bi-whatsapp me-2"></i> (87) 98888-8888</li>
-                        <li class="mb-2"><i class="bi bi-envelope me-2"></i> contato@pajeueletromoveis.com.br</li>
-                        <li class="mb-2"><i class="bi bi-geo-alt me-2"></i> Rua Exemplo, 123 - Centro</li>
-                        <li><i class="bi bi-clock me-2"></i> Seg-Sex: 8h às 18h | Sáb: 8h às 12h</li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5>Formas de Pagamento</h5>
-                    <div class="d-flex flex-wrap">
-                        <img src="/media/pagamentos/pix.png" alt="PIX" class="pagamento-icon">
-                        <img src="/media/pagamentos/visa.png" alt="Visa" class="pagamento-icon">
-                        <img src="/media/pagamentos/mastercard.png" alt="Mastercard" class="pagamento-icon">
-                        <img src="/media/pagamentos/amex.png" alt="American Express" class="pagamento-icon">
-                        <img src="/media/pagamentos/boleto.png" alt="Boleto" class="pagamento-icon">
-                        <img src="/media/pagamentos/hipercard.png" alt="Hipercard" class="pagamento-icon">
-                        <img src="/media/pagamentos/elo.png" alt="Elo" class="pagamento-icon">
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4 bg-light opacity-25">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    <p class="mb-0">&copy; 2023 Pajeú Eletromóveis. Todos os direitos reservados.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <p class="mb-0">CNPJ: 00.000.000/0001-00</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+     {% include 'includes/footer.html' %}
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -29,3 +29,16 @@ class Contato(models.Model):
 
     def __str__(self):
         return f'{self.nome} - {self.assunto} ({self.criado_em:%d/%m/%Y %H:%M})'
+
+class SobreSite(models.Model):
+    titulo = models.CharField('Título', max_length=200, default='Sobre Nós')
+    texto = models.TextField('Texto', blank=True)
+    imagem = models.ImageField('Imagem da Loja', upload_to='sobre/', blank=True, null=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Sobre o Site'
+        verbose_name_plural = 'Sobre o Site'
+
+    def __str__(self):
+        return self.titulo

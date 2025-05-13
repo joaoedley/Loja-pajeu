@@ -6,7 +6,7 @@ from produtos.models import Produto
 from django.contrib.auth.decorators import login_required
 from pedidos.models import Pedido
 from banners.models import Banner
-from .models import Contato
+from .models import Contato, SobreSite
 
 def inicio(request):
     """View para a página inicial"""
@@ -110,3 +110,7 @@ def meus_pedidos(request):
     """View para listar os pedidos do usuário"""
     pedidos = Pedido.objects.filter(user=request.user).order_by('-criado_em')
     return render(request, 'core/meus_pedidos.html', {'pedidos': pedidos})
+
+def sobre_site(request):
+    sobre = SobreSite.objects.first()
+    return render(request, 'core/sobre.html', {'sobre': sobre})

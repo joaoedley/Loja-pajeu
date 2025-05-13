@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Contato, SiteConfig
+from .models import Contato, SiteConfig, SobreSite
+
+@admin.register(SobreSite)
+class SobreSiteAdmin(admin.ModelAdmin):
+    list_display = ['titulo', 'atualizado_em']
+    search_fields = ['titulo', 'texto']
+    readonly_fields = ['atualizado_em']
 
 @admin.register(SiteConfig)
 class SiteConfigAdmin(admin.ModelAdmin):

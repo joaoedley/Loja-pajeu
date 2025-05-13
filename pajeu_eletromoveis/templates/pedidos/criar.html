@@ -196,14 +196,7 @@
                         <div class="form-group">
                             <label>Tipo de Entrega</label>
                             <div class="radio-group">
-                                <label>
-                                    <input type="radio" name="tipo_entrega" value="envio" id="tipo_envio" checked onclick="toggleEndereco()">
-                                    Envio para Endereço
-                                </label>
-                                <label>
-                                    <input type="radio" name="tipo_entrega" value="retirada" id="tipo_retirada" onclick="toggleEndereco()">
-                                    Retirar na Loja
-                                </label>
+                                {{ form.tipo_entrega }}
                             </div>
                         </div>
 
@@ -331,8 +324,21 @@
 function toggleEndereco() {
     const selectedValue = document.querySelector('input[name="tipo_entrega"]:checked').value;
     const enderecoFields = document.getElementById('endereco_fields');
-    enderecoFields.style.display = selectedValue === 'envio' ? 'block' : 'none';
+    const inputs = enderecoFields.querySelectorAll('input, select');
+    if (selectedValue === 'envio') {
+        enderecoFields.style.display = 'block';
+        inputs.forEach(input => input.required = true);
+    } else {
+        enderecoFields.style.display = 'none';
+        inputs.forEach(input => input.required = false);
+    }
 }
-window.onload = toggleEndereco;
+
+window.onload = function() {
+    toggleEndereco();
+    document.querySelectorAll('input[name="tipo_entrega"]').forEach(function(radio) {
+        radio.addEventListener('change', toggleEndereco);
+    });
+};
 </script>
 {% endblock %}

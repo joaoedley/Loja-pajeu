@@ -14,14 +14,12 @@ SECRET_KEY = 'django-insecure-z#h5%&txz(qtru$7s#4$$#x6__hv(7-imelt%ornh9$3=oens%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['Pajeu-eletromoveis.onrender.com']
+ALLOWED_HOSTS = ['edley.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'jet.dashboard',  # Jet dashboard (opcional, mas bonito)
-    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,7 +35,6 @@ INSTALLED_APPS = [
     'banners.apps.BannersConfig',
     'crispy_forms',
     'crispy_bootstrap5',
-    
 ]
 
 #criando o crispy forms bootstrap5

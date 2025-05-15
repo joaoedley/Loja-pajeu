@@ -1,1 +1,1 @@
-web: gunicorn pajeu_eletromoveis.wsgi
+web: gunicorn pajeu_eletromoveis.wsgi:application

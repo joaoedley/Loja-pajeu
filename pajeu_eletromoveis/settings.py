@@ -144,6 +144,3 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Configurações de sessão para o carrinho
 CARRINHO_SESSION_ID = 'carrinho'
-
-import django_heroku
-django_heroku.settings(locals())

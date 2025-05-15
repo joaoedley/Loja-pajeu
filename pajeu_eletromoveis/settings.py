@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z#h5%&txz(qtru$7s#4$$#x6__hv(7-imelt%ornh9$3=oens%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['edley.pythonanywhere.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.onrender.com']
 
 
 # Application definition
@@ -45,7 +45,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -142,3 +142,6 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Configurações de sessão para o carrinho
 CARRINHO_SESSION_ID = 'carrinho'
+
+import django_heroku
+django_heroku.settings(locals())

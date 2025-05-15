@@ -1,1 +1,0 @@
-web: gunicorn Pajeu_eletromoveis.wsgi

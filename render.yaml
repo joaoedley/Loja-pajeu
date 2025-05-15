@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: pajeu_eletromoveis
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn pajeu_eletromoveis.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: pajeu_eletromoveis.settings
